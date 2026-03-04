@@ -6,6 +6,7 @@ from autogluon.tabular.registry import ModelRegistry, ag_model_registry
 
 from tabarena.benchmark.models.ag import (
     ExplainableBoostingMachineModel,
+    GFDLAG,
     KNNNewModel,
     ModernNCAModel,
     RealMLPModel,
@@ -22,6 +23,7 @@ tabarena_model_registry: ModelRegistry = copy.deepcopy(ag_model_registry)
 
 _models_to_add = [
     ExplainableBoostingMachineModel,
+    GFDLAG,
     RealMLPModel,
     TabICLModel,
     TabDPTModel,
