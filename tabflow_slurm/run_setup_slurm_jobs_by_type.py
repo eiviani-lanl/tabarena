@@ -11,7 +11,7 @@ BenchmarkSetup(
     run_script_from_base_path = (
         "tabarena/tabflow_slurm/run_tabarena_experiment.py"
     ),
-    benchmark_name="elm_experiment_040326",
+    benchmark_name="elm_experiment_040326_binary",
     openml_cache_from_base_path = ".cache/openml/org/openml/www",
     configs_path_from_base_path = (
         "tabarena/tabflow_slurm/benchmark_configs_"
@@ -46,6 +46,102 @@ BenchmarkSetup(
     ],
     num_gpus=0,
     configs_per_job=20,
+    problem_types_to_run="binary",
+    tabarena_lite=True,
+    n_random_configs=100
+).setup_jobs()
+
+# # -- ELM Benchmark 04/03/2026
+BenchmarkSetup(
+    base_path = "/vast/home/eiviani/",
+    python_from_base_path = ".conda/envs/tab_elm/bin/python",
+    run_script_from_base_path = (
+        "tabarena/tabflow_slurm/run_tabarena_experiment.py"
+    ),
+    benchmark_name="elm_experiment_040326_multiclass",
+    openml_cache_from_base_path = ".cache/openml/org/openml/www",
+    configs_path_from_base_path = (
+        "tabarena/tabflow_slurm/benchmark_configs_"
+    ),
+    slurm_cpu_partition = "shared-gpu",
+    slurm_extra_gres = False,
+    models = [
+        # existing models …
+        ("TabDPT", "all"),
+        ("TabICL", "all"),
+        ("TabPFNv2", "all"),
+        ("Mitra", "all"),
+        # -- Neural networks
+        ("TabM", "all"),
+        ("RealMLP", "all"),
+        ("ModernNCA", "all"),
+        ("FastaiMLP", "all"),
+        ("TorchMLP", "all"),
+        # -- Tree-based models
+        ("CatBoost", "all"),
+        ("EBM", "all"),
+        ("ExtraTrees", "all"),
+        ("LightGBM", "all"),
+        ("RandomForest", "all"),
+        ("XGBoost", "all"),
+        # -- Baselines
+        ("KNN", "all"),
+        ("Linear", "all"),
+        # -- Other
+        ("xRFM", "all"),
+        ("ELM", "all"),
+    ],
+    num_gpus=0,
+    configs_per_job=20,
+    problem_types_to_run="multiclass",
+    tabarena_lite=True,
+    n_random_configs=100
+).setup_jobs()
+
+# # -- ELM Benchmark 04/03/2026
+BenchmarkSetup(
+    base_path = "/vast/home/eiviani/",
+    python_from_base_path = ".conda/envs/tab_elm/bin/python",
+    run_script_from_base_path = (
+        "tabarena/tabflow_slurm/run_tabarena_experiment.py"
+    ),
+    benchmark_name="elm_experiment_040326_regression",
+    openml_cache_from_base_path = ".cache/openml/org/openml/www",
+    configs_path_from_base_path = (
+        "tabarena/tabflow_slurm/benchmark_configs_"
+    ),
+    slurm_cpu_partition = "shared-gpu",
+    slurm_extra_gres = False,
+    models = [
+        # existing models …
+        ("TabDPT", "all"),
+        ("TabICL", "all"),
+        ("TabPFNv2", "all"),
+        ("Mitra", "all"),
+        # -- Neural networks
+        ("TabM", "all"),
+        ("RealMLP", "all"),
+        ("ModernNCA", "all"),
+        ("FastaiMLP", "all"),
+        ("TorchMLP", "all"),
+        # -- Tree-based models
+        ("CatBoost", "all"),
+        ("EBM", "all"),
+        ("ExtraTrees", "all"),
+        ("LightGBM", "all"),
+        ("RandomForest", "all"),
+        ("XGBoost", "all"),
+        # -- Baselines
+        ("KNN", "all"),
+        ("Linear", "all"),
+        # -- Other
+        ("xRFM", "all"),
+        ("ELM", "all"),
+    ],
+    num_gpus=0,
+    configs_per_job=20,
+    
+    problem_types_to_run="regression",
     tabarena_lite=True,
     n_random_configs=100
 ).setup_jobs()

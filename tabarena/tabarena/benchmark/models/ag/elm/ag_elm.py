@@ -78,7 +78,7 @@ class GFDLAG(AbstractModel):
             "hidden_layer_sizes": (100,),
             "activation": "identity",
             "weight_scheme": "uniform",
-            "direct_links": True,
+            "direct_links": False,
             "seed": 0,
             "reg_alpha": 0.1,
             "rtol": None,
