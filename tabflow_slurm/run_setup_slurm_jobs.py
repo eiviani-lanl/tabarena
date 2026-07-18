@@ -4,14 +4,14 @@ from __future__ import annotations
 
 from tabflow_slurm.setup_slurm_base import BenchmarkSetup
 
-# # -- ELM Benchmark 04/03/2026
+# # -- ELM Benchmark 07/16/2026
 BenchmarkSetup(
     base_path = "/vast/home/eiviani/",
     python_from_base_path = ".conda/envs/tab_elm/bin/python",
     run_script_from_base_path = (
         "tabarena/tabflow_slurm/run_tabarena_experiment.py"
     ),
-    benchmark_name="elm_experiment_040326",
+    benchmark_name="elm_experiment_071626",
     openml_cache_from_base_path = ".cache/openml/org/openml/www",
     configs_path_from_base_path = (
         "tabarena/tabflow_slurm/benchmark_configs_"
@@ -20,33 +20,33 @@ BenchmarkSetup(
     slurm_extra_gres = False,
     models = [
         # existing models …
-        ("TabDPT", "all"),
-        ("TabICL", "all"),
-        ("TabPFNv2", "all"),
-        ("Mitra", "all"),
+        #("TabDPT", "all"),
+        #("TabICL", "all"),
+        # ("TabPFNv26", "all"), broken for now as they havent set a key or name
+        #("Mitra", "all"), also broken
         # -- Neural networks
-        ("TabM", "all"),
-        ("RealMLP", "all"),
-        ("ModernNCA", "all"),
-        ("FastaiMLP", "all"),
-        ("TorchMLP", "all"),
+        #("TabM", "all"),
+        #("RealMLP", "all"),
+        #("ModernNCA", "all"),
+        #("FastaiMLP", "all"),
+        #("TorchMLP", "all"),
         # -- Tree-based models
-        ("CatBoost", "all"),
-        ("EBM", "all"),
-        ("ExtraTrees", "all"),
-        ("LightGBM", "all"),
-        ("RandomForest", "all"),
-        ("XGBoost", "all"),
+        #("CatBoost", "all"),
+        #("EBM", "all"),
+        #("ExtraTrees", "all"),
+        #("LightGBM", "all"),
+        #("RandomForest", "all"),
+        #("XGBoost", "all"),
         # -- Baselines
-        ("KNN", "all"),
-        ("Linear", "all"),
+        #("KNN", "all"),
+        #("Linear", "all"),
         # -- Other
-        ("xRFM", "all"),
-        ("ELM", "all"),
+        #("xRFM", "all"),
+        ("GFDL", "all"),
     ],
     num_gpus=0,
-    configs_per_job=20,
-    tabarena_lite=True,
+    configs_per_job=400,
+    tabarena_lite=False,
     n_random_configs=100
 ).setup_jobs()
 

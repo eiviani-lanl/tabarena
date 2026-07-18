@@ -8,7 +8,7 @@ from autogluon.features.generators import LabelEncoderFeatureGenerator
 from sklearn.preprocessing import StandardScaler
 
 
-from gfdl.model import GFDLClassifier, GFDLRegressor
+from tabarena.benchmark.models.ag.sklearn_elm.sklearn_elm import ExtremeLearningClassifier, ExtremeLearningRegressor
 
 from typing import TYPE_CHECKING
 
@@ -16,14 +16,14 @@ if TYPE_CHECKING:
     import pandas as pd
 
 
-class GFDLAG(AbstractModel):
+class SELM(AbstractModel):
     """Minimal implementation of an ELM compatible with the scikit-learn API.
     For more details on how to implement an abstract model, see https://auto.gluon.ai/stable/tutorials/tabular/advanced/tabular-custom-model.html
     and compare to implementations of models under tabarena.benchmark/models/ag/.
     """
 
-    ag_key = "CELM"
-    ag_name = "CustomELM"
+    ag_key = "sELM"
+    ag_name = "sklearnELM"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -61,11 +61,11 @@ class GFDLAG(AbstractModel):
         # Select model class
         if self.problem_type in ["regression"]:
 
-            model_cls = GFDLRegressor
+            model_cls = ExtremeLearningRegressor
         else:
 
             # case for 'binary' and 'multiclass',
-            model_cls = GFDLClassifier
+            model_cls = ExtremeLearningClassifier
 
         X = self.preprocess(X, is_train=True)
         params = self._get_model_params()
@@ -77,10 +77,10 @@ class GFDLAG(AbstractModel):
         default_params = {
             "hidden_layer_sizes": (100,),
             "activation": "identity",
-            "weight_scheme": "uniform",
+            "weight_init": "uniform",
             "direct_links": False,
-            "seed": 0,
-            "reg_alpha": 0.1,
+            "random_state": 0,
+            "ridge_alpha": 0.1,
             "rtol": None,
         }
         for param, val in default_params.items():

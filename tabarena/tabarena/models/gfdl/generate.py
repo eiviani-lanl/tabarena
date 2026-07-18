@@ -1,10 +1,10 @@
 from autogluon.common.space import Real, Int, Categorical, Bool
-from tabarena.benchmark.models.ag.sklearn_elm.ag_elm import SELM
+from tabarena.benchmark.models.ag.gfdl.gfdl import GFDL
 
 from ...utils.config_utils import ConfigGenerator
 
 
-name = 'sklearnELM'
+name = 'GFDL'
 manual_configs = [
     {},
 ]
@@ -20,13 +20,13 @@ search_space = {
             "identity",
             "tanh",
             "relu",
-            "logistic",
+            "sigmoid",
             "softmax",
             "softmin",
             "log_sigmoid",
             "log_softmax",
         ),
-        "weight_init": Categorical(
+        "weight_scheme": Categorical(
             "zeros",
             "uniform",
             "normal",
@@ -37,12 +37,14 @@ search_space = {
             "lecun_normal",
             "glorot_normal",
         ),
-        "direct_links": Categorical(True,False)
+        "direct_links": Categorical(True,False),
+        "reg_alpha": Real(0.0, 500.0, default=None, log=True),
+        "rtol": Real(0.0, 1e-2, default=None, log=True)
     }
 
-gen_elm = ConfigGenerator(model_cls=SELM, manual_configs=manual_configs, search_space=search_space)
+gen_gfdl = ConfigGenerator(model_cls=GFDL, manual_configs=manual_configs, search_space=search_space)
 
 
-def generate_configs_elm(num_random_configs=200):
+def generate_configs_gfdl(num_random_configs=200):
     config_generator = ConfigGenerator(name=name, manual_configs=manual_configs, search_space=search_space)
     return config_generator.generate_all_configs(num_random_configs=num_random_configs)
