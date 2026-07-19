@@ -70,8 +70,8 @@ class GFDL(AbstractModel):
 
         X = self.preprocess(X, is_train=True)
         params = self._get_model_params()
-        params['reg_alpha'] = None if params['reg_alpha']==0.0 else params['reg_alpha']
-        params['rtol'] = None if params['rtol']==0.0 else params['reg_alpha']
+        params['reg_alpha'] = None if params['reg_alpha']<=1e-6 else params['reg_alpha']
+        params['rtol'] = None if params['rtol']<=1e-7 else params['rtol']
         #params['seed'] = None
         self.model = model_cls(**params)
         self.model.fit(X, y)
