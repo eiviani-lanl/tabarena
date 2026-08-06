@@ -106,9 +106,11 @@ Not sure if this is an issue with my environment, but they're using `yaml.safe_l
 
 ## Evaluation
 
-Run `python run_eval.py --type {all|binary|multiclass|regression} --direct_links {both|with|without} --name`
+Run `python run_eval.py --dataset {all|binary|multiclass|regression} --direct_links {both|with|without} --name --methods`
 
 The name flag denotes the name of the experiment as set in `run_setup_slurm_jobs.py`
+
+The methods flag may handle multiple arguments, and should contain the models you'd like to evaluate. The names passed here must match the `ag_name` set in the model class exactly.
 
 The generated figures will reside in `evals/custom_elm/{all|binary|multiclass|regression}` or, if you set the direct_links flag: `evals/custom_elm/{all|binary|multiclass|regression}/{with/without}`
 
