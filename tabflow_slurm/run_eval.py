@@ -1,16 +1,20 @@
 import os
 
+import glob
 from pathlib import Path
 from simple_evaluation.run_eval_for_new_model import run_eval_for_new_models, ModelMetadata
-
+from tabarena.nips2025_utils.artifacts.method_metadata import MethodMetadata
 import argparse
 import yaml
+import pandas as pd
 import shutil
+from tabarena.loaders import Paths
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run evaluation on cached optimization")
     parser.add_argument(
-        "--type",
+        "--dataset",
         type=str,
         default="all",
         choices=["binary","multiclass","regression","all"],
@@ -27,15 +31,29 @@ if __name__ == "__main__":
     parser.add_argument(
         "--name",
         type=str,
-        default="elm_experiment_071626",
+        default="elm_experiment_073026",
         help="`benchmark_name` set in `run_setup_slurm_jobs.py`",
     )
+
+    parser.add_argument(
+        "--methods",
+        nargs='+',
+        type=str,
+        default="GFDL",
+        help="methods to be evaluated, defaults to gfdl",
+    )
     
-    type = parser.parse_args().type
+    dataset = parser.parse_args().dataset
     dl = parser.parse_args().direct_links
     exp = parser.parse_args().name
 
-    suff = "" if type=="all" else f"_{type}"
+    meths = parser.parse_args().methods
+
+    meths = [meths] if type(meths)==str else meths
+
+    print(meths)
+
+    suff = "" if dataset=="all" else f"_{dataset}"
 
     scheme = "" if dl=="both" else f"/{dl}_direct_links"
 
@@ -61,7 +79,26 @@ if __name__ == "__main__":
             shutil.copy2(src, dst)
             print(f"added {src} to {dst}")
 
+    runs = glob.glob(f"{base_path}/data/*")
+
+    for cls in meths:
+        c_path = base_path / cls
+        c_path.mkdir(exist_ok=True)
+        data_path = c_path / "data"
+        data_path.mkdir(exist_ok=True)
+
+        cls_runs = glob.glob(f"{base_path}/data/{cls}*")
+
+        for file in cls_runs:
+            name = Path(file).name
+            dst = data_path / name
+            shutil.copytree(file, dst, copy_function=if_new, dirs_exist_ok=True)
+
     for config in all_configs['methods']:
+        cls = config.get('model_cls')
+
+        if cls not in ['gfdl','CELM','sELM']: continue
+
         method_kwargs = config.get('method_kwargs', {})
         model_hyperparams = config.get('model_hyperparameters', {})
         has_direct_links = model_hyperparams.get('direct_links', False)
@@ -81,13 +118,13 @@ if __name__ == "__main__":
 
     models = [
             ModelMetadata(
-                path_raw=Path(f"/vast/home/eiviani/output/{exp}{suff}{scheme}"),
-                method="GFDL",
+                path_raw=Path(f"/vast/home/eiviani/output/{exp}{suff}{scheme}/{cls}"),
+                method=cls,
                 only_load_cache=False,
-            )]
+            ) for cls in meths]
     
     print(models)
-    fig_dir = Path(__file__).parent / "evals" / "custom_elm" / type / Path("" if dl=="both" else dl)
+    fig_dir = Path(__file__).parent / "evals" / "custom_elm" / dataset / Path("" if dl=="both" else dl)
     print("FIGS:",fig_dir)
     fig_dir.mkdir(parents=True, exist_ok=True)
 
@@ -96,13 +133,14 @@ if __name__ == "__main__":
         fig_output_dir=fig_dir,
         extra_subsets=[["lite"]],
     )
+    
+    df = pd.concat(df)
 
     config_results = (
-    df.groupby(["dataset", "fold", "method"], as_index=False)
-      .mean(numeric_only=True)
-)
+        df.groupby(["dataset", "fold", "method"], as_index=False)
+        .mean(numeric_only=True)
+    )
 
-    # Within each dataset/fold, find the config with lowest validation error.
     best_idx = (
         config_results
         .groupby(["dataset", "fold"])["metric_error_val"]

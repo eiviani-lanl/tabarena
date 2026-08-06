@@ -4,14 +4,14 @@ from __future__ import annotations
 
 from tabflow_slurm.setup_slurm_base import BenchmarkSetup
 
-# # -- ELM Benchmark 07/16/2026
+# # -- ELM Benchmark 07/30/2026
 BenchmarkSetup(
     base_path = "/vast/home/eiviani/",
     python_from_base_path = ".conda/envs/tab_elm/bin/python",
     run_script_from_base_path = (
         "tabarena/tabflow_slurm/run_tabarena_experiment.py"
     ),
-    benchmark_name="elm_experiment_071626",
+    benchmark_name="elm_experiment_073026",
     openml_cache_from_base_path = ".cache/openml/org/openml/www",
     configs_path_from_base_path = (
         "tabarena/tabflow_slurm/benchmark_configs_"
@@ -43,11 +43,12 @@ BenchmarkSetup(
         # -- Other
         #("xRFM", "all"),
         ("GFDL", "all"),
+        ("FELM","all")
     ],
     num_gpus=0,
     configs_per_job=400,
     tabarena_lite=False,
-    n_random_configs=100
+    n_random_configs=70
 ).setup_jobs()
 
 # # -- TabICLv2 14/02/2026

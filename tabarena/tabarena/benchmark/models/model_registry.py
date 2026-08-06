@@ -7,6 +7,7 @@ from autogluon.tabular.registry import ModelRegistry, ag_model_registry
 from tabarena.benchmark.models.ag import (
     ExplainableBoostingMachineModel,
     SELM,
+    FELM,
     GFDL,
     KNNNewModel,
     ModernNCAModel,
@@ -25,6 +26,7 @@ tabarena_model_registry: ModelRegistry = copy.deepcopy(ag_model_registry)
 _models_to_add = [
     ExplainableBoostingMachineModel,
     SELM,
+    FELM,
     GFDL,
     RealMLPModel,
     TabICLModel,
