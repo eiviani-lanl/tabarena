@@ -7,7 +7,7 @@ from autogluon.common.space import Categorical
 from autogluon.features.generators import LabelEncoderFeatureGenerator
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
-from sklearn.kernel_approximation import RBFSampler
+from sklearn.random_projection import GaussianRandomProjection
 from sklearn.linear_model import Ridge, RidgeClassifier
 from sklearn.base import BaseEstimator, ClassifierMixin
 from scipy.special import softmax
@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     import pandas as pd
 
-class RidgeClassifier_(BaseEstimator, ClassifierMixin):
+class RidgeClassifier_(BaseEstimator, ClassifierMixin): # predict_proba() is not a function included in Ridge, and is required by TabArena's HO
     def __init__(self, alpha=1.0, fit_intercept=False):
         self.alpha = alpha
         self.fit_intercept = fit_intercept
@@ -83,12 +83,10 @@ class FELM(AbstractModel):
 
         params = self._get_model_params()
         params['reg_alpha'] = 0.0 if float(params['reg_alpha'])<=1e-6 else params['reg_alpha']
-        #sampler = RBFSampler(gamma=params["gamma"], n_components = params["n_components"], random_state = params['seed'])
-        # Select model class
 
         steps = []
         for i, layer in enumerate(params['n_hidden']):
-                steps.append((f"features{i}",RBFSampler(gamma=params["gamma"], n_components = layer, random_state = params['seed']+i)))
+                steps.append((f"features{i}",GaussianRandomProjection(n_components = layer, random_state = params['seed']+i))) # use different seed for each hidden layer (could use rng?)
         if self.problem_type in ["regression"]:
             steps.append(("ridge", Ridge(alpha=params['reg_alpha'],fit_intercept=False)))
         else:
@@ -105,7 +103,6 @@ class FELM(AbstractModel):
         default_params = {
             
             "n_hidden": (100,),
-            "gamma": 1.0,
             "reg_alpha": 1.0,
             "seed": self.model_random_seed if hasattr(self, "model_random_seed") else 0,
         }

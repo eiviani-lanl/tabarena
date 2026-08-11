@@ -16,8 +16,7 @@ search_space = {
             (400, 400, 400, 400, 400),
             
         ),
-        "gamma": Real(1e-3, 10.0, default=1.0, log=True),
-        "reg_alpha": Real(1e-7, 500.0, default=1.0, log=True),
+        "reg_alpha": Real(1e-10, 500.0, default=1.0, log=True),
     }
 
 gen_felm = ConfigGenerator(model_cls=FELM, manual_configs=manual_configs, search_space=search_space)

@@ -38,8 +38,7 @@ search_space = {
             "glorot_normal",
         ),
         "direct_links": Categorical(True,False),
-        "reg_alpha": Real(0.0, 500.0, default=None, log=True),
-        "rtol": Real(0.0, 1e-2, default=None, log=True)
+        "reg_alpha": Real(1e-10, 500.0, default=None, log=True),
     }
 
 gen_gfdl = ConfigGenerator(model_cls=GFDL, manual_configs=manual_configs, search_space=search_space)
