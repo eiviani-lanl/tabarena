@@ -97,6 +97,7 @@ Not sure if this is an issue with my environment, but they're using `yaml.safe_l
 
 ### Per dataset type:
 
+### This has not been tested since I've changed some of the slurm logic
 Run `run_setup_slurm_jobs_by_type.py` to set up all data needed to run array jobs and submit the array job to the slurm
 cluster by following the printed instructions. You should recieve 3 separate commands; one per dataset type.
 
