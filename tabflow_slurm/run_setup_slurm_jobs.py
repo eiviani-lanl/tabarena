@@ -11,7 +11,7 @@ BenchmarkSetup(
     run_script_from_base_path = (
         "tabarena/tabflow_slurm/run_tabarena_experiment.py"
     ),
-    benchmark_name="elm_experiment_073026",
+    benchmark_name="elm_experiment_081126",
     openml_cache_from_base_path = ".cache/openml/org/openml/www",
     configs_path_from_base_path = (
         "tabarena/tabflow_slurm/benchmark_configs_"
@@ -42,8 +42,8 @@ BenchmarkSetup(
         #("Linear", "all"),
         # -- Other
         #("xRFM", "all"),
-        ("GFDL", "all"),
-        ("FELM","all")
+        ("FELM", "all"),
+        ("GFDL","all")
     ],
     num_gpus=0,
     configs_per_job=400,

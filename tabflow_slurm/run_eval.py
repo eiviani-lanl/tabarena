@@ -31,7 +31,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--name",
         type=str,
-        default="elm_experiment_073026",
+        default="elm_experiment_081126",
         help="`benchmark_name` set in `run_setup_slurm_jobs.py`",
     )
 
