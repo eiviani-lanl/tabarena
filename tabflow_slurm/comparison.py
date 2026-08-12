@@ -1,16 +1,14 @@
 import pandas as pd
 import numpy as np
 
-'''elm_df = pd.read_csv('/vast/home/eiviani/tabarena/tabflow_slurm/evals/custom_elm/all/without/results_per_split.csv')
+elm_df = pd.read_csv('/vast/home/eiviani/tabarena/tabflow_slurm/evals/custom_elm/all/without/results_per_split.csv')
 rvfl_df = pd.read_csv('/vast/home/eiviani/tabarena/tabflow_slurm/evals/custom_elm/all/with/results_per_split.csv')
 
 elm_df['method'] = elm_df['method'].str.replace('gfdl', 'elm', case=False)
 rvfl_df['method'] = rvfl_df['method'].str.replace('gfdl', 'rvfl', case=False)
 print(elm_df.columns)
 
-all_data = pd.concat([elm_df, rvfl_df], ignore_index=True)'''
-
-all_data = pd.read_csv('/vast/home/eiviani/tabarena/tabflow_slurm/evals/custom_elm/all/results_per_split.csv')
+all_data = pd.concat([elm_df, rvfl_df], ignore_index=True)
 
 agg_dict = {
     'time_train_s': 'mean',

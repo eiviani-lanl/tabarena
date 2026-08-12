@@ -68,10 +68,7 @@ def load_task_metadata(paper: bool = True, subset: str = None, path: str = None)
 
     """
     if path is None:
-        if hasattr(tabarena, '__file__') and tabarena.__file__ is not None:
-            tabrepo_root = str(Path(tabarena.__file__).parent.parent)
-        else:
-            tabrepo_root = str(Path(tabarena.__path__[0]))
+        tabrepo_root = str(Path(tabarena.__file__).parent.parent)
         if paper:
             path = f"{tabrepo_root}/tabarena/nips2025_utils/metadata/task_metadata_tabarena51.csv"
         else:
