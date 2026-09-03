@@ -11,7 +11,7 @@ BenchmarkSetup(
     run_script_from_base_path = (
         "tabarena/tabflow_slurm/run_tabarena_experiment.py"
     ),
-    benchmark_name="elm_experiment_073026",
+    benchmark_name="elm_experiment_083126",
     openml_cache_from_base_path = ".cache/openml/org/openml/www",
     configs_path_from_base_path = (
         "tabarena/tabflow_slurm/benchmark_configs_"
@@ -19,36 +19,13 @@ BenchmarkSetup(
     slurm_cpu_partition = "shared-gpu",
     slurm_extra_gres = False,
     models = [
-        # existing models …
-        #("TabDPT", "all"),
-        #("TabICL", "all"),
-        # ("TabPFNv26", "all"), broken for now as they havent set a key or name
-        #("Mitra", "all"), also broken
-        # -- Neural networks
-        #("TabM", "all"),
-        #("RealMLP", "all"),
-        #("ModernNCA", "all"),
-        #("FastaiMLP", "all"),
-        #("TorchMLP", "all"),
-        # -- Tree-based models
-        #("CatBoost", "all"),
-        #("EBM", "all"),
-        #("ExtraTrees", "all"),
-        #("LightGBM", "all"),
-        #("RandomForest", "all"),
-        #("XGBoost", "all"),
-        # -- Baselines
-        #("KNN", "all"),
-        #("Linear", "all"),
-        # -- Other
-        #("xRFM", "all"),
-        ("GFDL", "all"),
-        ("FELM","all")
+        ("ELM", "all"),
+        ("RVFL", "all"),
     ],
     num_gpus=0,
     configs_per_job=400,
     tabarena_lite=False,
-    n_random_configs=70
+    n_random_configs=100
 ).setup_jobs()
 
 # # -- TabICLv2 14/02/2026

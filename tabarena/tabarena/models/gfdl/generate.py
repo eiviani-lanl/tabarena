@@ -1,13 +1,10 @@
-from autogluon.common.space import Real, Int, Categorical, Bool
-from tabarena.benchmark.models.ag.gfdl.gfdl import GFDL
+from autogluon.common.space import Real, Categorical
+
+from tabarena.benchmark.models.ag.gfdl.gfdl import ELM, RVFL
 
 from ...utils.config_utils import ConfigGenerator
 
 
-name = 'GFDL'
-manual_configs = [
-    {},
-]
 search_space = {
         "hidden_layer_sizes": Categorical(
             (100,), (200,), (400,), 
@@ -37,13 +34,44 @@ search_space = {
             "lecun_normal",
             "glorot_normal",
         ),
-        "direct_links": Categorical(True,False),
-        "reg_alpha": Real(1e-10, 500.0, default=None, log=True),
+        "reg_alpha": Real(1e-10, 100.0, default=None, log=True),
     }
 
-gen_gfdl = ConfigGenerator(model_cls=GFDL, manual_configs=manual_configs, search_space=search_space)
+manual_configs = [{}]
 
 
-def generate_configs_gfdl(num_random_configs=200):
-    config_generator = ConfigGenerator(name=name, manual_configs=manual_configs, search_space=search_space)
-    return config_generator.generate_all_configs(num_random_configs=num_random_configs)
+gen_elm = ConfigGenerator(
+    model_cls=ELM,
+    manual_configs=manual_configs,
+    search_space=search_space,
+)
+
+
+def generate_configs_elm(num_random_configs=200):
+    config_generator = ConfigGenerator(
+        name="ELM",
+        manual_configs=manual_configs,
+        search_space=search_space,
+    )
+
+    return config_generator.generate_all_configs(
+        num_random_configs=num_random_configs
+    )
+
+gen_rvfl = ConfigGenerator(
+    model_cls=RVFL,
+    manual_configs=manual_configs,
+    search_space=search_space,
+)
+
+
+def generate_configs_rvfl(num_random_configs=200):
+    config_generator = ConfigGenerator(
+        name="RVFL",
+        manual_configs=manual_configs,
+        search_space=search_space,
+    )
+
+    return config_generator.generate_all_configs(
+        num_random_configs=num_random_configs
+    )

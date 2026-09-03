@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from tabarena.benchmark.models.ag.ebm.ebm_model import ExplainableBoostingMachineModel
 from tabarena.benchmark.models.ag.sklearn_elm.ag_elm import SELM
-from tabarena.benchmark.models.ag.gfdl.gfdl import GFDL
+from tabarena.benchmark.models.ag.gfdl.gfdl import RVFL, ELM
 from tabarena.benchmark.models.ag.felm.felm import FELM
 from tabarena.benchmark.models.ag.knn_new.knn_model import KNNNewModel
 from tabarena.benchmark.models.ag.modernnca.modernnca_model import ModernNCAModel
@@ -18,7 +18,8 @@ __all__ = [
     "ExplainableBoostingMachineModel",
     "SELM",
     "FELM",
-    "GFDL",
+    "RVFL",
+    "ELM",
     "KNNNewModel",
     "ModernNCAModel",
     "RealMLPModel",

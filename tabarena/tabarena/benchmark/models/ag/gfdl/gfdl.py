@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 import numpy as np
 
 from autogluon.core.models import AbstractModel
-from autogluon.common.space import Categorical
-
 from autogluon.features.generators import LabelEncoderFeatureGenerator
 from sklearn.preprocessing import StandardScaler
-
 
 from gfdl.model import GFDLClassifier, GFDLRegressor
 
@@ -16,18 +14,23 @@ if TYPE_CHECKING:
     import pandas as pd
 
 
-class GFDL(AbstractModel):
-    """Minimal implementation of an ELM compatible with the scikit-learn API.
+class GFDLBase(AbstractModel):
+    """Minimal implementation of a GFDL compatible with the scikit-learn API.
     For more details on how to implement an abstract model, see https://auto.gluon.ai/stable/tutorials/tabular/advanced/tabular-custom-model.html
     and compare to implementations of models under tabarena.benchmark/models/ag/.
+
+    ELM and RVFL inherit from this
     """
 
-    ag_key = "gfdl"
-    ag_name = "GFDL"
+    ag_key = "gfdl_base"
+    ag_name = "GFDLBase"
+
+    direct_links: bool | None = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._feature_generator = None
+        self.sc = None
 
     def _preprocess(self, X: pd.DataFrame, is_train=False, **kwargs) -> np.ndarray:
         """Model-specific preprocessing of the input data."""
@@ -59,8 +62,7 @@ class GFDL(AbstractModel):
         **kwargs,  # kwargs includes many other potential inputs, refer to AbstractModel documentation for details
     ):
     
-        # Select model class
-        if self.problem_type in ["regression"]:
+        if self.problem_type == "regression":
 
             model_cls = GFDLRegressor
         else:
@@ -70,6 +72,9 @@ class GFDL(AbstractModel):
 
         X = self.preprocess(X, is_train=True)
         params = self._get_model_params()
+        
+        params["direct_links"] = self.direct_links
+
         self.model = model_cls(**params)
         self.model.fit(X, y)
 
@@ -102,3 +107,20 @@ class GFDL(AbstractModel):
     def supported_problem_types(cls) -> list[str] | None:
         return ["binary", "multiclass", "regression"]
 
+
+class ELM(GFDLBase):
+    """Extreme Learning Machine"""
+
+    ag_key = "elm"
+    ag_name = "ELM"
+
+    direct_links = False
+
+
+class RVFL(GFDLBase):
+    """Random Vector Functional Link network"""
+
+    ag_key = "rvfl"
+    ag_name = "RVFL"
+
+    direct_links = True
