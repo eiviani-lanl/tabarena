@@ -523,6 +523,10 @@ class BenchmarkSetup:
         """Generate the YAML file with the configurations to run based
         on specific models to run.
         """
+        if Path(self.configs).exists():
+            print(f"file already exists, skipping generation")
+            return
+        
         from tabarena.benchmark.experiment import (
             AGModelBagExperiment,
             YamlExperimentSerializer,
@@ -654,7 +658,7 @@ class BenchmarkSetup:
         with open(self.slurm_job_json, "w") as f:
             json.dump(jobs_dict, f)
 
-        run_command = f"sbatch --array=0-{n_jobs - 1}%100 {self.slurm_base_command} {self.slurm_job_json}"
+        run_command = f"sbatch submit_batch.sh 0 {n_jobs - 1} {self._safe_benchmark_name}"
         print(
             f"##### Setup Jobs for {self._safe_benchmark_name}"
             "\nRun the following command to start the jobs:"

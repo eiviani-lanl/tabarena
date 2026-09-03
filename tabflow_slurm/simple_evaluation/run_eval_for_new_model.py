@@ -46,15 +46,27 @@ def run_eval_for_new_models(
     from tabarena.nips2025_utils.end_to_end_single import EndToEndSingle
     from tabarena.website.website_format import format_leaderboard
 
+    df = []
     for model in models:
         if not model.only_load_cache:
-            method_name_from_metadata = EndToEndSingle.from_path_raw_to_results(
+            cls = model.method
+            print(model)
+            end_to_end = EndToEndSingle.from_path_raw(
+                path_raw=model.path_raw / "data",
+                name_suffix=model.new_result_prefix,
+                artifact_name=model.new_result_prefix,
+                method = cls,
+            )
+            end_to_end_result = EndToEndSingle.from_path_raw_to_results(
                 path_raw=model.path_raw / "data",
                 name_prefix_raw=model.method,
                 name_suffix=model.new_result_prefix,
                 artifact_name=model.new_result_prefix,
+                method = cls,
                 num_cpus=8,
-            ).method_metadata.method
+            )
+            df.append(end_to_end.model_results)
+            method_name_from_metadata = end_to_end_result.method_metadata.method
             if model.new_result_prefix is not None:
                 method_name_from_metadata = method_name_from_metadata.replace(model.new_result_prefix, "")
             if method_name_from_metadata != model.method:
@@ -88,6 +100,8 @@ def run_eval_for_new_models(
             print("\n\n###############")
             print("\t Subset Description:", subset)
             plot_plots(fig_output_dir / "subsets" / "_".join(subset), subset)
+
+    return df
 
 
 if __name__ == "__main__":

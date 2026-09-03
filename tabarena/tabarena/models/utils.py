@@ -30,7 +30,11 @@ def get_configs_generator_from_name(model_name: str):
     name_to_import_map = {
         "CatBoost": lambda: importlib.import_module("tabarena.models.catboost.generate").gen_catboost,
         "EBM": lambda: importlib.import_module("tabarena.models.ebm.generate").gen_ebm,
+        "sklearnELM": lambda: importlib.import_module("tabarena.models.elm.generate").gen_elm,
         "ExtraTrees": lambda: importlib.import_module("tabarena.models.extra_trees.generate").gen_extratrees,
+        "ELM": lambda: importlib.import_module("tabarena.models.gfdl.generate").gen_elm,
+        "RVFL": lambda: importlib.import_module("tabarena.models.gfdl.generate").gen_rvfl,
+        "FELM": lambda: importlib.import_module("tabarena.models.felm.generate").gen_felm,
         "FastaiMLP": lambda: importlib.import_module("tabarena.models.fastai.generate").gen_fastai,
         "KNN": lambda: importlib.import_module("tabarena.models.knn.generate").gen_knn,
         "LightGBM": lambda: importlib.import_module("tabarena.models.lightgbm.generate").gen_lightgbm,
